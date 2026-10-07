@@ -1,0 +1,4 @@
+# Linux makinede satır sonları LF kalsın (kabuk betikleri CRLF ile bozulur)
+* text=auto eol=lf
+*.png binary
+*.jpg binary

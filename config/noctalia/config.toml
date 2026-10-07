@@ -1,0 +1,131 @@
+[accessibility]
+ui_scale = 1.0
+
+[bar.default]
+center = [ "clock" ]
+concave_edge_corners = true
+end = [ "media", "spacer_1", "tray", "notifications", "bluetooth", "network", "volume", "battery", "session" ]
+margin_edge = 0
+margin_ends = 0
+radius_bottom_left = 12
+radius_bottom_right = 12
+radius_top_left = 0
+radius_top_right = 0
+scale = 1.0
+start = [ "launcher", "workspaces" ]
+thickness = 30
+background_opacity = 0.75
+
+[shell]
+font_family = "Inter"
+clipboard_image_action_command = "swash --stdin --name \"swash-$(date +'%Y-%m-%d_%H:%M:%S').png\""
+launch_apps_as_systemd_services = true
+polkit_agent = true
+settings_show_advanced = true
+
+    [shell.greeter_sync]
+    auto_sync = false
+
+    [shell.panel]
+    transparency_mode = "soft"
+    open_near_click_control_center = true
+    session_placement = "floating"
+    session_position = "center"
+
+    [shell.screenshot]
+    copy_to_clipboard = false
+    pipe_command = "swash --stdin --name \"swash-$(date +'%Y-%m-%d_%H:%M:%S').png\""
+    pipe_to_command = true
+    save_to_file = false
+
+    [[shell.session.actions]]
+    action = "lock"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "1"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "logout"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "2"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "lock_and_suspend"
+    countdown_seconds = 3.0
+    enabled = true
+    shortcut = "3"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "reboot"
+    countdown_seconds = 3.0
+    enabled = true
+    shortcut = "4"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "shutdown"
+    countdown_seconds = 3.0
+    enabled = true
+    shortcut = "5"
+    variant = "destructive"
+
+[system.monitor]
+gpu_poll_seconds = 2
+
+[theme]
+mode = "dark"
+# Renkler duvar kagidina gore DEGISMESIN diye sabit palet:
+source = "builtin"
+builtin = "Noctalia"
+wallpaper_scheme = "m3-tonal-spot"
+
+    [theme.templates]
+    builtin_ids = [ "btop", "gtk3", "gtk4", "kcolorscheme", "kitty", "qt", "alacritty" ]
+
+[widget.clock]
+format = "{:L%d.%m.%Y (%A) · %H:%M}"
+
+[widget.media]
+hide_when_no_media = true
+title_scroll = "on_hover"
+
+[widget.network]
+show_label = false
+
+[widget.volume]
+show_label = false
+
+[widget.tray]
+capsule = false
+
+[widget.workspaces]
+active_pill_size = 2.5
+capsule = false
+inactive_pill_size = 1.0
+pill_scale = 0.80
+show_labels = false
+
+[wallpaper]
+directory = "/home/emir/Pictures/Wallpapers"
+transition = [ "fade", "wipe", "zoom", "disc", "stripes", "honeycomb" ]
+transition_duration = 1200
+transition_on_startup = true
+edge_smoothness = 0.05
+
+    [wallpaper.automation]
+    enabled = true
+    interval_seconds = 1800
+    order = "random"
+
+[widget.spacer_1]
+type = "spacer"
+
+    [calendar.account.tatiller]
+    type = "ics"
+    name = "Türkiye Resmî Tatilleri"
+    server_url = "https://calendar.google.com/calendar/ical/tr.turkish%23holiday%40group.v.calendar.google.com/public/basic.ics"
+    color = "#E05A47"

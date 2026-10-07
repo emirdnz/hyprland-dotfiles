@@ -1,0 +1,6 @@
+# Makineye ozel / gecici
+*.bak
+*.bak2
+*-oncesi
+.config-yedek-*
+config/noctalia/config.toml.bak*
