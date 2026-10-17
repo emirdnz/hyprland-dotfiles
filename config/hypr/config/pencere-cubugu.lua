@@ -57,13 +57,23 @@ local function geriGetir(w)
     hl.dispatch(hl.dsp.window.move({ workspace = burasi.id, window = "address:" .. w.address, follow = false }))
 end
 
--- SUPER + H: gizlenenlerin hepsi bu masaustune doner.
-hl.bind("SUPER + H", function()
-    for _, w in ipairs(hl.get_workspace_windows(GIZLI) or {}) do
-        geriGetir(w)
+-- SUPER + H ac-kapa: gizli pencere varsa hepsi bu masaustune doner; yoksa ustteki pencere gizlenir.
+-- Adli (global) ki denerken "hyprctl repl 'GizleGoster()'" ile tusa basilmis gibi calistirilabilsin.
+function GizleGoster()
+    local gizliler = hl.get_workspace_windows(GIZLI) or {}
+    if #gizliler > 0 then
+        for _, w in ipairs(gizliler) do
+            geriGetir(w)
+        end
+        gizliyiKapat()
+        return
     end
-    gizliyiKapat()
-end)
+    local aktif = hl.get_active_window()
+    if aktif then
+        hl.dispatch(hl.dsp.window.move({ workspace = GIZLI, window = "address:" .. aktif.address, follow = false }))
+    end
+end
+hl.bind("SUPER + H", GizleGoster)
 
 -- Win+Tab ya da baska bir yoldan gizli pencere secilirse gizli masaustunu acma; pencereyi buraya getir.
 hl.on("window.active", function(w)
