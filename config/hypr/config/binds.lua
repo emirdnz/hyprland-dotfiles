@@ -60,8 +60,12 @@ hl.bind(mainMod .. " + ALT + Down",  hl.dsp.window.resize({ x = 0, y =  40, rela
 hl.bind(mainMod .. " + ALT + Up",    hl.dsp.window.resize({ x = 0, y = -40, relative = true }), { repeating = true })
 
 -- Move & Resize with mouse
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag())
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize())
+-- { mouse = true } olmazsa basili tutup surukleme calismaz (Hyprland ornek ayari da boyle).
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+-- Emir'in istegi: tekerlege basili tutup surukleyince pencere tasinir, tusa gerek yok.
+-- Bedeli: uygulamalarda orta tik (linki yeni sekmede acma, sekme kapatma, yapistirma) calismaz.
+hl.bind("mouse:274", hl.dsp.window.drag(), { mouse = true })
 
 -- Zoom
 local function zoomfunction(value)
@@ -138,6 +142,9 @@ hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(noctCall .. "wallpaper-random
 hl.bind(mainMod .. " + O",         hl.dsp.exec_cmd("~/.config/hypr/scripts/seffaflik.sh +"))
 hl.bind(mainMod .. " + SHIFT + O", hl.dsp.exec_cmd("~/.config/hypr/scripts/seffaflik.sh -"))
 hl.bind(mainMod .. " + ALT + O",   hl.dsp.exec_cmd("~/.config/hypr/scripts/seffaflik.sh sifirla"))
+
+-- Ekran kaydi (wf-recorder) - bir bas baslat, bir daha bas durdur; video ~/Videos altina
+hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/kayit.sh"))
 
 -- Clipboard
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(noctCall .. "panel-toggle clipboard"))
