@@ -28,7 +28,7 @@ hl.plugin.hyprbars.add_button({
 })
 hl.plugin.hyprbars.add_button({
     bg_color = "rgb(febc2e)", fg_color = "rgb(5a3d00)", size = 14, icon = "–",
-    action   = "hyprctl dispatch 'hl.dsp.window.move({ workspace = \"special:gizli\", follow = false })'",
+    action   = "hyprctl dispatch 'Gizle'",
 })
 hl.plugin.hyprbars.add_button({
     bg_color = "rgb(28c840)", fg_color = "rgb(003d0a)", size = 14, icon = "□",
@@ -57,20 +57,29 @@ local function geriGetir(w)
     hl.dispatch(hl.dsp.window.move({ workspace = burasi.id, window = "address:" .. w.address, follow = false }))
 end
 
--- SUPER + H ac-kapa: gizli pencere varsa hepsi bu masaustune doner; yoksa ustteki pencere gizlenir.
--- Adli (global) ki denerken "hyprctl repl 'GizleGoster()'" ile tusa basilmis gibi calistirilabilsin.
+-- Sari dugme ve SUPER + H ayni Gizle()'yi kullanir; en son gizlenen pencere akilda tutulur.
+-- Adlar global ki dugme "hyprctl dispatch 'Gizle'" ile cagirabilsin, denerken repl'den de calissin.
+function Gizle()
+    local w = hl.get_active_window()
+    if not w then return end
+    SonGizlenen = w.address
+    hl.dispatch(hl.dsp.window.move({ workspace = GIZLI, window = "address:" .. w.address, follow = false }))
+end
+
+-- SUPER + H ac-kapa, en son gizlenen pencere icin: gizliyse geri gelir, aciksa yine gizlenir.
+-- Daha once hic gizlenen yoksa (ya da o pencere kapandiysa) ustteki pencereyi gizler.
 function GizleGoster()
-    local gizliler = hl.get_workspace_windows(GIZLI) or {}
-    if #gizliler > 0 then
-        for _, w in ipairs(gizliler) do
-            geriGetir(w)
-        end
-        gizliyiKapat()
+    local son = SonGizlenen and hl.get_window("address:" .. SonGizlenen)
+    if not son then
+        Gizle()
         return
     end
-    local aktif = hl.get_active_window()
-    if aktif then
-        hl.dispatch(hl.dsp.window.move({ workspace = GIZLI, window = "address:" .. aktif.address, follow = false }))
+    if son.workspace and son.workspace.name == GIZLI then
+        geriGetir(son)
+        gizliyiKapat()
+        hl.dispatch(hl.dsp.focus({ window = "address:" .. son.address }))
+    else
+        hl.dispatch(hl.dsp.window.move({ workspace = GIZLI, window = "address:" .. son.address, follow = false }))
     end
 end
 hl.bind("SUPER + H", GizleGoster)
