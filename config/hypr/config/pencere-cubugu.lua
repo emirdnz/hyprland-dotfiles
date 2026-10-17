@@ -38,11 +38,38 @@ hl.plugin.hyprbars.add_button({
 -- Simdilik yalniz Dolphin'de cubuk olsun.
 hl.window_rule({ match = { class = "negative:^(org\\.kde\\.dolphin)$" }, ["hyprbars:no_bar"] = true })
 
--- Kucultulen pencereleri geri getir: SUPER + H, gizlenenlerin hepsi bu masaustune doner.
-hl.bind("SUPER + H", function()
-    local burasi = hl.get_active_workspace()
+-- Kucultulen pencereler "special:gizli"de durur. O masaustu ekranda hic acilmasin: acilinca
+-- arkasi bulaniklasiyor (dim_special + blur.special) ve Win+Tab'in bulanikligiyla ust uste biniyordu.
+local GIZLI = "special:gizli"
+
+local function gizliyiKapat()
+    local m = hl.get_active_monitor()
+    local acik = m and m.active_special_workspace
+    if acik and acik.name == GIZLI then
+        hl.dispatch(hl.dsp.workspace.toggle_special("gizli"))
+    end
+end
+
+local function geriGetir(w)
+    local m = hl.get_active_monitor()
+    local burasi = m and m.active_workspace
     if not burasi then return end
-    for _, w in ipairs(hl.get_workspace_windows("special:gizli") or {}) do
-        hl.dispatch(hl.dsp.window.move({ workspace = burasi.id, window = "address:" .. w.address, follow = false }))
+    hl.dispatch(hl.dsp.window.move({ workspace = burasi.id, window = "address:" .. w.address, follow = false }))
+end
+
+-- SUPER + H: gizlenenlerin hepsi bu masaustune doner.
+hl.bind("SUPER + H", function()
+    for _, w in ipairs(hl.get_workspace_windows(GIZLI) or {}) do
+        geriGetir(w)
+    end
+    gizliyiKapat()
+end)
+
+-- Win+Tab ya da baska bir yoldan gizli pencere secilirse gizli masaustunu acma; pencereyi buraya getir.
+hl.on("window.active", function(w)
+    if w and w.workspace and w.workspace.name == GIZLI then
+        geriGetir(w)
+        gizliyiKapat()
+        hl.dispatch(hl.dsp.focus({ window = "address:" .. w.address }))
     end
 end)
