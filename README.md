@@ -4,11 +4,39 @@
 > the Noctalia shell for the panel, launcher and lock screen, and a matching GTK / Kitty / Alacritty theme.
 > One script installs it with a backup of your current config; a second, interactive script applies the
 > root-level fixes — including a boot-time black-screen fix for AMD + NVIDIA hybrid laptops.
+> Built and tested on **CachyOS + Hyprland** only — install CachyOS with the Hyprland desktop first
+> (see *Başlamadan önce* below).
 
 Günlük kullandığım Linux masaüstü. Yeni bir makinede aynı düzeni dakikalar içinde kurmak için yazıldı:
 tek komutla kurulur, mevcut ayarlarının yedeğini alır, istersen geri alınır.
 
-<!-- Ekran görüntüsü eklenecek: docs/ekran/masaustu.png -->
+![Masaüstü](docs/ekran/masaustu.png)
+
+<sub>Görüntüdeki duvar kağıdı repoya dahil değildir.</sub>
+
+## Başlamadan önce — hangi sistem için?
+
+Bu ayarlar **CachyOS + Hyprland** üzerinde hazırlandı ve yalnız orada denendi. En sorunsuz yol:
+
+1. **CachyOS'u indir:** [cachyos.org/download](https://cachyos.org/download/) · kurulum rehberi:
+   [CachyOS Wiki](https://wiki.cachyos.org/installation/installation_prepare/)
+2. **Kurulumda masaüstü olarak Hyprland'ı seç.** Sonraki ek paketler ekranında Noctalia paketi
+   işaretli gelirse bırak — bu ayarlar zaten Noctalia kullanıyor.
+3. Kurulum bitince aşağıdaki [Kurulum](#kurulum) adımlarıyla bu ayarları uygula.
+
+**Başka dağıtımlarda:**
+
+| Dağıtım | Durum |
+|---|---|
+| CachyOS | ✅ Hazırlandığı ve denendiği sistem |
+| Arch ve Arch tabanlılar (EndeavourOS vb.) | 🟡 Büyük ihtimalle çalışır — paketler aynı depolarda, ama denenmedi |
+| Ubuntu, Fedora, Debian, openSUSE… | 🔴 Olduğu gibi çalışmaz — `pacman` / `paru` yok, paket adları farklı |
+
+- Yapılandırma Hyprland'ın **Lua** biçiminde (`hyprland.lua`), Hyprland 0.56 ile denendi. Lua
+  yapılandırmasını desteklemeyen eski bir Hyprland bu dosyaları okuyamaz.
+- Arch ailesi dışında denemek istersen: Hyprland ve Noctalia'yı kendi dağıtımının yoluyla kur, sonra
+  yalnız `kur.sh`'yi çalıştır. `sistem/sistem-kur.sh` Arch'a özel araçlar kullanır (`mkinitcpio`,
+  Limine) — orada **çalıştırma**.
 
 ## Öne çıkanlar
 
