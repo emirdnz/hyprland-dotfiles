@@ -106,6 +106,29 @@ if sor "6) Giris ekraninda sadece 'Hyprland (uwsm-managed)' gorunsun mu?"; then
   fi
 fi
 
+# --- 7. Bluetooth kulaklik (AirPods) kopmasin ---
+# Laptopta (18 Eki) AirPods baglanip ses baslamadan kopuyordu; klasik modla duzeldi.
+# Bedeli: yalniz dusuk enerjili (BLE) cihazlar (bazi fare/klavye) baglanmaz. Boyle cihazin varsa "h" de.
+if sor "7) Bluetooth yalniz klasik modda calissin mi (AirPods icin)?"; then
+  F=/etc/bluetooth/main.conf
+  cp -n "$F" "$F.dotfiles-oncesi"
+  if grep -qE '^\s*ControllerMode\s*=' "$F"; then
+    sed -i -E 's/^\s*ControllerMode\s*=.*/ControllerMode = bredr/' "$F"
+  else
+    sed -i '0,/^\[General\]/s//[General]\nControllerMode = bredr/' "$F"
+  fi
+  systemctl restart bluetooth && echo "    ayarlandi"
+fi
+
+# --- 8. Ayda bir disk taramasi ---
+if sor "8) Disk ayda bir bozulmaya karsi taransin mi (btrfs scrub)?"; then
+  if findmnt -no FSTYPE / | grep -q btrfs; then
+    systemctl enable --now btrfs-scrub@-.timer && echo "    ayarlandi"
+  else
+    echo "    disk btrfs degil, gecildi"
+  fi
+fi
+
 echo
 echo "BITTI. Yeniden baslat."
 echo "Sorun cikarsa: acilis menusunden LTS cekirdegini ya da bir snapshot'i sec,"
