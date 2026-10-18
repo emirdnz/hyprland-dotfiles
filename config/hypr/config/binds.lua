@@ -63,9 +63,10 @@ hl.bind(mainMod .. " + ALT + Up",    hl.dsp.window.resize({ x = 0, y = -40, rela
 -- { mouse = true } olmazsa basili tutup surukleme calismaz (Hyprland ornek ayari da boyle).
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
--- Emir'in istegi: tekerlege basili tutup surukleyince pencere tasinir, tusa gerek yok.
--- Bedeli: uygulamalarda orta tik (linki yeni sekmede acma, sekme kapatma, yapistirma) calismaz.
-hl.bind("mouse:274", hl.dsp.window.drag(), { mouse = true })
+-- Orta tik (tekerlege basma) uygulamalara birakildi: linki yeni sekmede acma, sekme kapatma calisir (18 Eki).
+-- Tekerlekle pencere tasima kaldirildi: Hyprland tikla surukleme arasini ayirt edip tiki uygulamaya
+-- guvenle iletemiyor; "gecir" ayariyla surukleme bitince alttaki link acilir ya da sekme kapanir.
+-- Pencere tasimak: SUPER + sol tik surukle (yukarida).
 
 -- Zoom
 local function zoomfunction(value)
