@@ -133,3 +133,12 @@ type = "spacer"
     name = "Türkiye Resmî Tatilleri"
     server_url = "https://calendar.google.com/calendar/ical/tr.turkish%23holiday%40group.v.calendar.google.com/public/basic.ics"
     color = "#E05A47"
+
+[location]
+# İstanbul (şehir merkezi) — elle; ağ sorgusu yok
+latitude = 41.01
+longitude = 28.98
+
+[nightlight]
+force = false
+enabled = true
