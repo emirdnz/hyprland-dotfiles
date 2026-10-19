@@ -28,6 +28,7 @@ settings_show_advanced = true
 
     [shell.launcher]
     layout = "simple"
+    category_icons_only = true
 
     [shell.panel]
     transparency_mode = "soft"
