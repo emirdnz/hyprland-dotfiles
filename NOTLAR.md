@@ -66,6 +66,19 @@ HP laptop: **AMD Renoir** (iGPU, laptop paneline bağlı) + **NVIDIA GTX 1650** 
 - **Takvimde Türkiye resmî tatilleri** var: `[calendar.account.tatiller]`, ICS bağlantısı.
   Anahtar `server_url` (eski `url` değil). Veriler birkaç dakika gecikmeyle gelir.
 
+## 🔌 Pencere çubuğu eklentisi ve güncellemeler (24 Kasım 2026)
+
+- **hyprbars her Hyprland sürümüne ayrıca derlenir.** 19 Kasım'da Hyprland 0.56 → 0.57 olunca
+  eski derleme yüklenmedi, ekrana "unknown config key 'plugin.hyprbars...'" hataları çıktı.
+- **Artık kendiliğinden:** `autostart.lua` her açılışta `scripts/eklenti-derle.sh`'i çağırır.
+  Sürüm değişmediyse hemen çıkar; değiştiyse kaynağı çeker, derler, `hyprctl reload` yapar
+  (1-2 dk, bildirimle). Elle: `~/.config/hypr/scripts/eklenti-derle.sh --zorla`.
+- **Derlenemezse kırmızı hata çıkmaz:** `pencere-cubugu.lua` eklenti yüklü değilse çubuk ayarlarını
+  atlar; çubuk görünmez, SUPER + H ve geri kalan her şey çalışır. Betik ertesi gün yine dener.
+  Kayıt: `~/.cache/hypr-eklentiler/derleme.log`.
+- Her pacman işleminden önce ve sonra snapper anlık görüntü alır (snap-pac); güncelleme bir şeyi
+  bozarsa açılış menüsündeki Snapshots'tan geri dönülür.
+
 ## 🖥️ Bu makineye özel, yeni makinede DEĞİŞTİR
 
 - `config/noctalia/config.toml` → `[wallpaper] directory` yolu (`kur.sh` kendi ev dizinine çevirir)

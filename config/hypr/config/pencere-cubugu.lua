@@ -2,41 +2,54 @@
 -- Simdilik yalniz Dolphin'de; begenilirse asagidaki "no_bar" kurali kaldirilip her pencereye acilir.
 -- Cubuktan tutup surukleyince pencere tasinir, cubuga cift tiklayinca buyur.
 
+-- Eklenti her Hyprland surumune ayrica derlenir. Hyprland guncellenince eski derleme yuklenmez;
+-- o zaman cubuk ayarlari atlanir ki ekrana kirmizi hata cikmasin ve dosyanin geri kalani
+-- (Gizle, SUPER + H) calismaya devam etsin. Yeni derlemeyi scripts/eklenti-derle.sh yapar,
+-- autostart.lua her acilista onu cagirir.
 local EKLENTI = os.getenv("HOME") .. "/.local/share/hypr-eklentiler/hyprbars.so"
-hl.plugin.load(EKLENTI)
+pcall(hl.plugin.load, EKLENTI)
 
-hl.config({
-    plugin = {
-        hyprbars = {
-            bar_height            = 26,
-            bar_color             = "rgba(1e1e24ee)",
-            ["col.text"]          = "rgba(ffffffcc)",
-            bar_text_size         = 10,
-            bar_text_font         = "Sans",
-            bar_buttons_alignment = "left",
-            bar_padding           = 10,
-            bar_button_padding    = 8,
-            on_double_click       = "hyprctl dispatch 'hl.dsp.window.fullscreen({ mode = 1 })'",
+local function cubukYuklu()
+    for _, p in ipairs(hl.get_loaded_plugins()) do
+        if p.name == "hyprbars" then return true end
+    end
+    return false
+end
+
+if cubukYuklu() then
+    hl.config({
+        plugin = {
+            hyprbars = {
+                bar_height            = 26,
+                bar_color             = "rgba(1e1e24ee)",
+                ["col.text"]          = "rgba(ffffffcc)",
+                bar_text_size         = 10,
+                bar_text_font         = "Sans",
+                bar_buttons_alignment = "left",
+                bar_padding           = 10,
+                bar_button_padding    = 8,
+                on_double_click       = "hyprctl dispatch 'hl.dsp.window.fullscreen({ mode = 1 })'",
+            },
         },
-    },
-})
+    })
 
--- Sola hizali: ilk eklenen en solda.
-hl.plugin.hyprbars.add_button({
-    bg_color = "rgb(ff5f57)", fg_color = "rgb(4d0000)", size = 14, icon = "✕",
-    action   = "hyprctl dispatch 'hl.dsp.window.close()'",
-})
-hl.plugin.hyprbars.add_button({
-    bg_color = "rgb(febc2e)", fg_color = "rgb(5a3d00)", size = 14, icon = "–",
-    action   = "hyprctl dispatch 'Gizle'",
-})
-hl.plugin.hyprbars.add_button({
-    bg_color = "rgb(28c840)", fg_color = "rgb(003d0a)", size = 14, icon = "□",
-    action   = "hyprctl dispatch 'hl.dsp.window.fullscreen({ mode = 1 })'",
-})
+    -- Sola hizali: ilk eklenen en solda.
+    hl.plugin.hyprbars.add_button({
+        bg_color = "rgb(ff5f57)", fg_color = "rgb(4d0000)", size = 14, icon = "✕",
+        action   = "hyprctl dispatch 'hl.dsp.window.close()'",
+    })
+    hl.plugin.hyprbars.add_button({
+        bg_color = "rgb(febc2e)", fg_color = "rgb(5a3d00)", size = 14, icon = "–",
+        action   = "hyprctl dispatch 'Gizle'",
+    })
+    hl.plugin.hyprbars.add_button({
+        bg_color = "rgb(28c840)", fg_color = "rgb(003d0a)", size = 14, icon = "□",
+        action   = "hyprctl dispatch 'hl.dsp.window.fullscreen({ mode = 1 })'",
+    })
 
--- Simdilik yalniz Dolphin'de cubuk olsun.
-hl.window_rule({ match = { class = "negative:^(org\\.kde\\.dolphin)$" }, ["hyprbars:no_bar"] = true })
+    -- Simdilik yalniz Dolphin'de cubuk olsun.
+    hl.window_rule({ match = { class = "negative:^(org\\.kde\\.dolphin)$" }, ["hyprbars:no_bar"] = true })
+end
 
 -- Kucultulen pencereler "special:gizli"de durur. O masaustu ekranda hic acilmasin: acilinca
 -- arkasi bulaniklasiyor (dim_special + blur.special) ve Win+Tab'in bulanikligiyla ust uste biniyordu.
