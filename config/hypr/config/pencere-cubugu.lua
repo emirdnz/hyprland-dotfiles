@@ -6,6 +6,8 @@
 -- o zaman cubuk ayarlari atlanir ki ekrana kirmizi hata cikmasin ve dosyanin geri kalani
 -- (Gizle, SUPER + H) calismaya devam etsin. Yeni derlemeyi scripts/eklenti-derle.sh yapar,
 -- autostart.lua her acilista onu cagirir.
+-- hl.plugin.load eklentiyi hemen yuklemez, dosya okunduktan sonra yukler ve ayari bir kez daha okur;
+-- ilk okumada ayarlarin atlanmasi bu yuzden normal.
 local EKLENTI = os.getenv("HOME") .. "/.local/share/hypr-eklentiler/hyprbars.so"
 pcall(hl.plugin.load, EKLENTI)
 

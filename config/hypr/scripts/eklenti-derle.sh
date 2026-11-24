@@ -55,7 +55,12 @@ for ADAY in "${ADAYLAR[@]}"; do
     cp "$KAYNAK/hyprbars/hyprbars.so" "$HEDEF.yeni" && mv -f "$HEDEF.yeni" "$HEDEF"
     echo "$SURUM" > "$DAMGA"
     echo "-- tamam: $ADAY"
-    [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]] && hyprctl reload >/dev/null
+    # Acilistaki yukleme basarisiz olduysa Hyprland ayni yolu reload'da yeniden denemiyor; elle yukle, sonra
+    # reload ki pencere-cubugu.lua eklentiyi yuklu gorup ayarlari uygulasin.
+    if [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]]; then
+      hyprctl plugin load "$HEDEF" >/dev/null
+      hyprctl reload >/dev/null
+    fi
     notify-send -a "Pencere çubuğu" "Pencere çubuğu hazır" "Yeni Hyprland sürümüne derlendi."
     exit 0
   fi
